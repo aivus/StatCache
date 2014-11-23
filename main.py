@@ -23,6 +23,11 @@ def main():
         exit(3)
 
     stat_cache = StatCache(cache_line_size, cache_size, access_file, histogram_file)
+    stat_cache.analyse()
+
+    access_file.close()
+    histogram_file.close()
+
 
 if __name__ == '__main__':
     main()
