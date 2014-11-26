@@ -80,10 +80,10 @@ class StatCache(object):
                 used_blocks[active_block_value] = current_line
 
             # TODO: Strange check here
-            if current_line > 0 and current_line % 200000 == 0:
-                print "Strange check!"
-                current_line += 1
-                break
+            #if current_line > 0 and current_line % 200000 == 0:
+            #    print "Strange check!"
+            #    current_line += 1
+            #    break
 
         insn_count = current_line
 
