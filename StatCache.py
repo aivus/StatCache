@@ -29,9 +29,8 @@ class StatCache(object):
         return sum / inst_count
 
     def analyse(self):
-        # TODO
-        rates = dict()
-        hist_index = dict()
+        caches = dict()
+        cold_miss_index = dict()
 
         hist = dict()  # Histogram
         used_blocks = dict()  # Used blocks. For calculate reuse distance
@@ -55,8 +54,6 @@ class StatCache(object):
             cur_size = inst_size
 
             while (offset + cur_size) > self.cache_line_size:
-                # TODO: Need check it.
-                # TODO: $active_blocks[] = ++$cur_block;
                 cur_block += 1
                 active_blocks += (cur_block,)
                 cur_size -= self.cache_line_size
@@ -71,8 +68,8 @@ class StatCache(object):
                         hist[reuse_distance] += 1
                 else:
                     # Cold miss
-                    if active_block_value not in hist_index:
-                        hist_index[active_block_value] = True
+                    if active_block_value not in cold_miss_index:
+                        cold_miss_index[active_block_value] = True
                         cold_numbers += 1
 
                 used_blocks[active_block_value] = current_line
@@ -90,10 +87,10 @@ class StatCache(object):
                 if abs(prob_prev - prob) < eps:
                     break
 
-            rates[cur_k_size] = prob
+            caches[cur_k_size] = prob
 
-        for rate in sorted(rates):
-            print "%d %f" % (rate, rates[rate])
+        for cache in sorted(caches):
+            print "%d %f" % (cache, caches[cache])
 
     def __init__(self, cache_line_size, access_file):
         self.cache_line_size = cache_line_size
