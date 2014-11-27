@@ -6,14 +6,12 @@ __author__ = 'Ilya Antipenko'
 
 
 class StatCache(object):
-    cache_line_size = -1
+    cache_line_size = None
 
     # Size of cache in lines
-    cache_size = -1
+    cache_size = None
 
     access_file = None
-    histogram_file = None
-
 
     def _f(self, n):
         return 1 - pow(1 - (1 / self.cache_size), n)
@@ -79,12 +77,6 @@ class StatCache(object):
 
                 used_blocks[active_block_value] = current_line
 
-            # TODO: Strange check here
-            #if current_line > 0 and current_line % 200000 == 0:
-            #    print "Strange check!"
-            #    current_line += 1
-            #    break
-
         insn_count = current_line
 
         for cur_k_size in custom_xrange(1, 1024, lambda x: x * 2):
@@ -110,11 +102,9 @@ class StatCache(object):
 
             print "%d %f %f" % (rate, sum_value, sum_value / len(rates[rate]))
 
-    def __init__(self, cache_line_size, cache_size, access_file, histogram_file):
+    def __init__(self, cache_line_size, access_file):
         self.cache_line_size = cache_line_size
-        self.cache_size = cache_size
         self.access_file = access_file
-        self.histogram_file = histogram_file
 
 
 def custom_xrange(start, stop, step_callback):
