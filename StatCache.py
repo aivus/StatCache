@@ -90,17 +90,10 @@ class StatCache(object):
                 if abs(prob_prev - prob) < eps:
                     break
 
-            if cur_k_size not in rates:
-                rates[cur_k_size] = tuple()
-
-            rates[cur_k_size] += (prob,)
+            rates[cur_k_size] = prob
 
         for rate in sorted(rates):
-            sum_value = 0
-            for r in rates[rate]:
-                sum_value += r
-
-            print "%d %f %f" % (rate, sum_value, sum_value / len(rates[rate]))
+            print "%d %f" % (rate, rates[rate])
 
     def __init__(self, cache_line_size, access_file):
         self.cache_line_size = cache_line_size
